@@ -1,0 +1,1 @@
+[![Build status](https://ci.appveyor.com/api/projects/status/cf8mn3kj7nte15jg?svg=true)](https://ci.appveyor.com/project/Feruno/testingwebinterfaces)
