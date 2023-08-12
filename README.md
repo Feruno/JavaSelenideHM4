@@ -1,1 +1,1 @@
-[![Build status](https://ci.appveyor.com/api/projects/status/cf8mn3kj7nte15jg?svg=true)](https://ci.appveyor.com/project/Feruno/testingwebinterfaces)
+[![Build status](https://ci.appveyor.com/api/projects/status/rx47i3ixoh7nvjdf?svg=true)](https://ci.appveyor.com/project/Feruno/javaselenidehm4)
