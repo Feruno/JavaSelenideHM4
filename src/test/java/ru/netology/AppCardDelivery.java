@@ -30,7 +30,6 @@ public class AppCardDelivery {
         String date = genDate(4, "dd.MM.yyyy");
         SelenideElement form = $("form");
         form.$("[placeholder='Город']").setValue("Москва");
-        //form.$("[class='icon-button__text']").click();
         $("[data-test-id='date'] input").sendKeys(Keys.chord(Keys.CONTROL + "a"), Keys.BACK_SPACE);
         $("[data-test-id='date'] input").setValue(date);
         $("span [name='name']").setValue("Алекс");
