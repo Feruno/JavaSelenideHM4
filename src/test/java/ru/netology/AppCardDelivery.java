@@ -43,85 +43,40 @@ public class AppCardDelivery {
     }
 
     @Test
-    void appSuccessfulPath() {
-        SelenideElement form = $("form");
-        form.$("[placeholder='Город']").setValue("Москва");
-        form.$("[class='icon-button__text']").click();
-        $$("[data-day]").first().click();
-        $("span [name='name']").setValue("Алекс");
-        form.$("span [name='phone']").setValue("+79012345678");
-        form.$("[data-test-id='agreement']").click();
-        form.$(byText("Забронировать")).click();
-        $(withText("Успешно!")).shouldBe(visible, Duration.ofSeconds(15));
-        $(".notification__content")
-                .shouldHave(Condition.text("Встреча успешно забронирована на " + $("[data-day]").getText()), Duration.ofSeconds(15))
-                .shouldBe(Condition.visible);
-    }
-
-    @Test
     void appSelectingCityList() {
+        String date = genDate(4, "dd.MM.yyyy");
+
         SelenideElement form = $("form");
         form.$("[placeholder='Город']").setValue("Ка");
         $(byText("Казань")).click();
         form.$("[class='icon-button__text']").click();
-        $$("[data-day]").first().click();
+        $("[data-test-id='date'] input").sendKeys(Keys.chord(Keys.CONTROL + "a"), Keys.BACK_SPACE);
+        $("[data-test-id='date'] input").setValue(date);
+
         $("span [name='name']").setValue("Алекс");
         form.$("span [name='phone']").setValue("+79012345678");
         form.$("[data-test-id='agreement']").click();
         form.$(byText("Забронировать")).click();
         $(withText("Успешно!")).shouldBe(visible, Duration.ofSeconds(15));
         $(".notification__content")
-                .shouldHave(Condition.text("Встреча успешно забронирована на " + $("[data-day]").getText()), Duration.ofSeconds(15))
-                .shouldBe(Condition.visible);
-    }
-
-    @Test
-    void appChoosingDateWeekAhead() {
-        SelenideElement form = $("form");
-        form.$("[placeholder='Город']").setValue("Ка");
-        $(byText("Казань")).click();
-        form.$("[class='icon-button__text']").click();
-
-        Integer nextWeek = Integer.valueOf(genDate(7, "d"));
-
-        if (nextWeek >= 31 || nextWeek >= 30 || nextWeek >= 29) {
-            Integer lastDay = Integer.valueOf($$("[data-day]").last().getText());
-            Integer res = null;
-
-            if (nextWeek == lastDay) {
-                res = lastDay;
-            } else {
-                res = nextWeek - lastDay;
-                $("[class='calendar__arrow calendar__arrow_direction_right']").click();
-            }
-
-            $(byText(String.valueOf(res))).click();
-
-        } else {
-            String nextWeekRes = nextWeek.toString();
-            $(byText(nextWeekRes)).click();
-        }
-        $("span [name='name']").setValue("Алекс");
-        form.$("span [name='phone']").setValue("+79012345678");
-        form.$("[data-test-id='agreement']").click();
-        form.$(byText("Забронировать")).click();
-        $(withText("Успешно!")).shouldBe(visible, Duration.ofSeconds(15));
-        $(".notification__content")
-                .shouldHave(Condition.text("Встреча успешно забронирована на " + $("[data-day]").getText()), Duration.ofSeconds(15))
+                .shouldHave(Condition.text("Встреча успешно забронирована на " + date), Duration.ofSeconds(15))
                 .shouldBe(Condition.visible);
     }
 
     @Test
     void appChoosingDateWeekAheadАlternative() {
+        String date = genDate(7, "dd.MM.yyyy");
+
         SelenideElement form = $("form");
         form.$("[placeholder='Город']").setValue("Ка");
         $(byText("Казань")).click();
         form.$("[class='icon-button__text']").click();
 
-        if ($$("[data-day]").last().getText().equals(genDate(7, "d"))) {
+        if ( !genDate(7, "MM").equals(genDate(3, "MM")) ) {
             $("[class='calendar__arrow calendar__arrow_direction_right']").click();
         }
-        $$("[data-day]").findBy(text(genDate(7, "d"))).click();
+        $("[data-test-id='date'] input").sendKeys(Keys.chord(Keys.CONTROL + "a"), Keys.BACK_SPACE);
+        $("[data-test-id='date'] input").setValue(date);
 
         $("span [name='name']").setValue("Алекс");
         form.$("span [name='phone']").setValue("+79012345678");
@@ -129,7 +84,7 @@ public class AppCardDelivery {
         form.$(byText("Забронировать")).click();
         $(withText("Успешно!")).shouldBe(visible, Duration.ofSeconds(15));
         $(".notification__content")
-                .shouldHave(Condition.text("Встреча успешно забронирована на " + $("[data-day]").getText()), Duration.ofSeconds(15))
+                .shouldHave(Condition.text("Встреча успешно забронирована на " + date), Duration.ofSeconds(15))
                 .shouldBe(Condition.visible);
     }
 }
